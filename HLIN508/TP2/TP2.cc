@@ -115,11 +115,12 @@ noeud *successeur(noeud *x)
 //------------------------------------------------------
 
 void remplace(ArbreBinaire *A, noeud *x, noeud *z)
-{
+{ 
   noeud *p = x->pere;
   x->pere = NULL;
-  if (p == NULL)
+  if (p == NULL){
     A->racine = z;
+  }
   else
   {
     if (x == p->filsG)
@@ -131,32 +132,43 @@ void remplace(ArbreBinaire *A, noeud *x, noeud *z)
       p->filsD = z;
     }
   }
-  if (z == NULL)
+  if (z != NULL){
     z->pere = p;
+  }
 }
 
 void supprimer(ArbreBinaire *A, noeud *z)
 {
   if (z->filsG == NULL)
   {
-    cout << "remplace 1 : " << endl;
     remplace(A, z, z->filsD);
   }
   else
   {
     if (z->filsD == NULL)
     {
-      cout << "remplace 2 : " << endl;
       remplace(A, z, z->filsG);
     }
     else
     {
-      cout << "remplace 3 : " << endl;
       noeud *y = successeur(z);
-      cout << "successeur de z : " << y->val << endl;
       remplace(A, y, y->filsD);
+      remplace(A,z,y);
+      if(z->filsD != NULL){
+      y->filsD = z->filsD;
+      z->filsD->pere = y;
+    }
+      if(z->filsG != NULL){
+        y->filsG = z->filsG;
+        z->filsG->pere = y;
+    }
+      if(z->pere != NULL){
+      y->pere = z->pere;
+    }
+
     }
   }
+free(z);
 }
 
 //-----------------------------------------------------------------------------
@@ -238,13 +250,13 @@ int main()
     if (k3 < 0)
       break;
     noeud *rech = recherche(arbre, k3);
-    cout << "valeur de rech " << rech->val << endl;
-    if (rech->val)
+    if (rech!=NULL)
     {
       supprimer(arbre, rech);
-      //dessinArbre(arbre, "supprime-" + to_string(k3));
-      cout << "Valeur a supprimé : " << k3 << " trouve : " << rech->val << endl;
+      cout << "suppression parfaite" << endl;
+      dessinArbre(arbre, "supprime-" + to_string(k3));
       affichageGraphique(arbre);
+      cout << "affichage parfait" << endl;
     }
     else
       cout << "Valeur " << k3 << " non présente" << endl;
