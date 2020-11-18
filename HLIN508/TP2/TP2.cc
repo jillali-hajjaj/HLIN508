@@ -115,10 +115,11 @@ noeud *successeur(noeud *x)
 //------------------------------------------------------
 
 void remplace(ArbreBinaire *A, noeud *x, noeud *z)
-{ 
+{
   noeud *p = x->pere;
   x->pere = NULL;
-  if (p == NULL){
+  if (p == NULL)
+  {
     A->racine = z;
   }
   else
@@ -132,7 +133,8 @@ void remplace(ArbreBinaire *A, noeud *x, noeud *z)
       p->filsD = z;
     }
   }
-  if (z != NULL){
+  if (z != NULL)
+  {
     z->pere = p;
   }
 }
@@ -153,22 +155,24 @@ void supprimer(ArbreBinaire *A, noeud *z)
     {
       noeud *y = successeur(z);
       remplace(A, y, y->filsD);
-      remplace(A,z,y);
-      if(z->filsD != NULL){
-      y->filsD = z->filsD;
-      z->filsD->pere = y;
-    }
-      if(z->filsG != NULL){
+      remplace(A, z, y);
+      if (z->filsD != NULL)
+      {
+        y->filsD = z->filsD;
+        z->filsD->pere = y;
+      }
+      if (z->filsG != NULL)
+      {
         y->filsG = z->filsG;
         z->filsG->pere = y;
-    }
-      if(z->pere != NULL){
-      y->pere = z->pere;
-    }
-
+      }
+      if (z->pere != NULL)
+      {
+        y->pere = z->pere;
+      }
     }
   }
-free(z);
+  free(z);
 }
 
 //-----------------------------------------------------------------------------
@@ -250,7 +254,7 @@ int main()
     if (k3 < 0)
       break;
     noeud *rech = recherche(arbre, k3);
-    if (rech!=NULL)
+    if (rech != NULL)
     {
       supprimer(arbre, rech);
       cout << "suppression parfaite" << endl;
