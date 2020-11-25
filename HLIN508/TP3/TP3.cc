@@ -71,7 +71,7 @@ void Entasser(int n, E T[], int i)
 
   if (m != i)
   {
-    int temp = T[i];
+    E temp = T[i];
     T[i] = T[m];
     T[m] = temp;
     Entasser(n, T, m);
@@ -96,7 +96,7 @@ void Tas(int n, E T[])
 
 int pere(int i)
 {
-  return floor(i - 1 / 2);
+  return floor((i - 1) / 2);
 }
 
 template <typename E>
@@ -104,7 +104,7 @@ void Remonter(int n, E T[], int i)
 {
   while (i > 0 && T[pere(i)] < T[i])
   {
-    int temp = T[i];
+    E temp = T[i];
     T[i] = T[pere(i)];
     T[pere(i)] = temp;
     i = pere(i);
@@ -114,10 +114,10 @@ void Remonter(int n, E T[], int i)
 template <typename E>
 E Supprimer(int &n, E T[], int i)
 {
-  int x = T[i];
+  E x = T[i];
   T[i] = T[n - 1];
   n--;
-  if (pere(i) != NULL && T[pere(i)] < T[i])
+  if (T[pere(i)] < T[i])
   {
     Remonter(n, T, i);
   }
@@ -150,24 +150,42 @@ void TrierSurPlace(int n, E T[])
   // A compléter
 }
 
-void AjoutElem(int n, couple F[], int v, float p)
+void AjoutElem(int &n, couple F[], int v, float p)
 {
-  // A compléter
+  n++;
+  F[n - 1].val = v;
+  F[n - 1].priorite = p;
+  Remonter(n, F, n - 1);
 }
 
 couple ExtraitMax(int n, couple F[])
 {
-  // A compléter
+  int max = 0;
+  couple s;
+  int indice = 0;
+  for (int i = 0; i < n; i++)
+  {
+    if (F[i].priorite > max)
+    {
+      max = F[i].priorite;
+      s = F[i];
+      indice = i;
+    }
+  }
+  Supprimer(n, F, indice);
+  return s;
 }
 
 void AugmentePriorite(int n, couple F[], int i, float gain)
 {
-  // A compléter
+  F[i].priorite += gain;
+  Tas(n, F);
 }
 
 void DiminuePriorite(int n, couple F[], int i, float perte)
 {
-  // A compléter
+  F[i].priorite -= perte;
+  Tas(n, F);
 }
 
 // ==================
@@ -199,10 +217,11 @@ int main()
 
   // Question 1
 
-  // cout << "Tableau T1 [7,12,4,8,10,2,1,1,3,9] : ";
-  // AfficherTableau(10, T1);
-  // cout << "Tableau T2 [5.3,1.1,6.8,8.3,2.9,10] : ";
-  // AfficherTableau(6, T2);
+  cout << "Tableau T1 [7,12,4,8,10,2,1,1,3,9] : ";
+  AfficherTableau(10, T1);
+  cout << "Tableau T2 [5.3,1.1,6.8,8.3,2.9,10] : ";
+  AfficherTableau(6, T2);
+  cout << endl;
   //dessinTas(10, T1, "T1");
   //affichageGraphique(10,T1,"T1");
   //dessinTas(6, T2, "T2");
@@ -219,25 +238,28 @@ int main()
 
   // Question 3
 
-  // int T4[N];
-  // TableauAleatoire(10, T4, 0, 100);
-  // AfficherTableau(10, T4);
+  int T4[N];
+  TableauAleatoire(10, T4, 0, 100);
+  AfficherTableau(10, T4);
+  cout << endl;
   // dessinTas(10, T4, "T4");
   // affichageGraphique(10, T4, "T4");
 
   // Question 4
 
-  // Entasser(10, T1, 0);
-  // cout << "Tableau T1 après entassement [12,10,4,8,9,2,1,1,3,7] : ";
-  // AfficherTableau(10, T1);
-  // //dessinTas(10, T1, "T1entasse");
+  Entasser(10, T1, 0);
+  cout << "Tableau T1 après entassement [12,10,4,8,9,2,1,1,3,7] : ";
+  AfficherTableau(10, T1);
+  cout << endl;
+  //dessinTas(10, T1, "T1entasse");
   // affichageGraphique(10, T1, "T1entasse");
 
   // Question 5
 
-  // Tas(6, T2);
-  // cout << "Tableau T2 après Tas [10,8.3,6.8,1.1,2.9,5.3] : ";
-  // AfficherTableau(6, T2);
+  Tas(6, T2);
+  cout << "Tableau T2 après Tas [10,8.3,6.8,1.1,2.9,5.3] : ";
+  AfficherTableau(6, T2);
+  cout << endl;
   // //dessinTas(6, T2, "T2tas");
   // affichageGraphique(6, T2, "T2tas");
 
@@ -247,17 +269,17 @@ int main()
   Trier(10, T1, T1tri);
   cout << "Tableau T1tri [1,1,2,3,4,7,8,9,10,12] : ";
   AfficherTableau(10, T1tri);
-  //dessinTas(10, T1tri, "T1tri");
-  affichageGraphique(10, T1tri, "T1tri");
+  cout << endl;
+  // //dessinTas(10, T1tri, "T1tri");
+  // affichageGraphique(10, T1tri, "T1tri");
 
   // Question 7
-  /*
-  TrierSurPlace(10, T1);
-  cout << "Tableau T1 après tri [1,1,2,3,4,7,8,9,10,12] : ";
-  AfficherTableau(10, T1);
+
+  // TrierSurPlace(10, T1);
+  // cout << "Tableau T1 après tri [1,1,2,3,4,7,8,9,10,12] : ";
+  // AfficherTableau(10, T1);
   //dessinTas(10, T1, "T1trisurplace");
   //affichageGraphique(10, T1, "T1trisurplace");
-*/
 
   // ===========================
   //  Exo 2 : FILES DE PRIORITE
@@ -272,40 +294,43 @@ int main()
   couple C[N];
   TabCouples(7, C, V, P);
 
-  cout << "Tableau C : ";
-  AfficherTableau(7, C);
+  // cout << "Tableau C : ";
+  // AfficherTableau(7, C);
   //dessinTas(7, C, "C");
   //  affichageGraphique(7, C, "C");
 
   // Question 1
-  /*
+  cout << "             -> ";
+  AfficherTableau(7, C);
   Remonter(7, C, 3);
   cout << "après Remonter [(6,0.8),(1,0.1),(5,0.6),(3,0.4),(3,0.3),(2,0.5),(7,0.9)] :" << endl
        << "            -> ";
   AfficherTableau(7, C);
+  cout << endl;
   //dessinTas(7, C, "C1");
   //affichageGraphique(7, C, "C1");
-*/
 
   // Question 2
-  /*
-  Supprimer(7, C, 2);
+  int n = 7;
+  cout << "             -> ";
+  AfficherTableau(7, C);
+  Supprimer(n, C, 2);
   cout << "après Supprimer [(7,0.9),(1,0.1),(6,0.8),(3,0.4),(3,0.3),(2,0.5)] :" << endl
        << "             -> ";
   AfficherTableau(6, C);
   //dessinTas(6, C, "C2");
   //affichageGraphique(6, C, "C2");
-*/
 
   // Question 3
-  /*
+
   Tas(6, C);
-  AjoutElem(6, C, 4, 1.);
+  int n1 = 6;
+  AjoutElem(n1, C, 4, 1.);
   cout << "après AjoutElem [(4,1),(3,0.4),(7,0.9),(1,0.1),(3,0.3),(2,0.5),(6,0.8)] :" << endl
        << "             -> ";
   AfficherTableau(7, C);
   //dessinTas(7, C, "C3");
-  //affichageGraphique(7, C, "C3");
+  affichageGraphique(7, C, "C3");
 
   couple y = ExtraitMax(7, C);
   cout << "après ExtraitMax [(7,0.9),(3,0.4),(6,0.8),(1,0.1),(3,0.3),(2,0.5)] :" << endl
@@ -314,10 +339,9 @@ int main()
   cout << "    (valeur extraite (4,1) : " << y << ")" << endl;
   //dessinTas(6, C, "C3bis")
   //affichageGraphique(6, C, "C3bis");
-*/
 
   // Question 4
-  /*
+
   AugmentePriorite(6, C, 4, .5);
   DiminuePriorite(6, C, 2, .2);
   cout << "après changement priorité [(7,0.9),(3,0.8),(6,0.6),(1,0.1),(3,0.4),(2,0.5)] :" << endl
@@ -325,7 +349,6 @@ int main()
   AfficherTableau(6, C);
   //dessinTas(6, C, "C4");
   //affichageGraphique(6, C, "C4");
-*/
 
   // ================
   //  Exo 3 : FUSION

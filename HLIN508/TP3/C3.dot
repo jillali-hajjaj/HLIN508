@@ -1,0 +1,22 @@
+digraph G {
+  node [style=filled];
+  N0 [label = "(4,1)"];
+  N0 -> N1;
+  N1 [label = "(3,0.4)"];
+  N1 -> N2;
+  N2 [label = "(1,0.1)"];
+  C1 [label=1, style = invis];
+  N1-> C1 [style=invis];
+  N1 -> N3;
+  N3 [label = "(3,0.3)"];
+  C0 [label=0, style = invis];
+  N0-> C0 [style=invis];
+  N0 -> N4;
+  N4 [label = "(7,0.9)"];
+  N4 -> N5;
+  N5 [label = "(2,0.5)"];
+  C4 [label=4, style = invis];
+  N4-> C4 [style=invis];
+  N4 -> N6;
+  N6 [label = "(6,0.8)"];
+}
