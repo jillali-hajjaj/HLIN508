@@ -98,11 +98,25 @@ string alignement(string &s1, string &s2, int **E)
     j = j - 1;
   }
 
-  // A compléter
-  // utiliser la méthode insert: ce qui peut être utile:
-  // aligne.insert(i,"a"): insert le caractère "a" à la ième position de align
-  // aligne.insert(i,x,"a"): insert x fois le caractere "a" à la ième
-  //                         position de align
+  for (int i = 0; i < s1.size(); i++)
+  {
+    if (s1[i] == s2[i])
+    {
+      aligne += "|";
+    }
+    else if (s1[i] == '_')
+    {
+      aligne += "I";
+    }
+    else if (s2[i] == '_')
+    {
+      aligne += "S";
+    }
+    else if (s1[i] != s2[i])
+    {
+      aligne += "R";
+    }
+  }
 
   return aligne;
 }
